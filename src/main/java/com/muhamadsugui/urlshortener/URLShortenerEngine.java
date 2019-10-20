@@ -17,6 +17,10 @@ public class URLShortenerEngine {
 	private final int KEY_LENGTH = 8;
 
 
+	public int getKEY_LENGTH() {
+		return KEY_LENGTH;
+	}
+
 	String generateKey(String forwardURL) {
 		String md5EncodedStr = calculateMD5(forwardURL);
 		return md5EncodedStr.substring(0, KEY_LENGTH);

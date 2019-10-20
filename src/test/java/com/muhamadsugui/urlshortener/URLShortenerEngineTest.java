@@ -24,7 +24,7 @@ class URLShortenerEngineTest {
 	void testGenerateKeyWithSalt() {
 		String input = "http://www.google.com";
 		String output = urlShorterEngine.generateKeyWithSalt(input);
-		int expectedLength = 8;
+		int expectedLength = urlShorterEngine.getKEY_LENGTH();
 		assertEquals(expectedLength,output.length());
 	}
 	
