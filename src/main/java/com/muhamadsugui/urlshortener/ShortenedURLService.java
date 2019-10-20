@@ -1,9 +1,14 @@
 package com.muhamadsugui.urlshortener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ShortenedURLService {
@@ -58,4 +63,23 @@ public class ShortenedURLService {
 		throw new ShortURLNotFoundException(id);
 	}
 
+	public List<ShortURL> getMostRequested(Integer maxRecords) {
+		Pageable paging = PageRequest.of(0, maxRecords, Sort.by("totalHits"));
+		Page<ShortURL> pagedResult = repository.findAll(paging);
+
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		}
+		return new ArrayList<ShortURL>();
+	}
+
+	public List<ShortURL> getHigherThan(Long numRecords) {
+		Pageable paging = PageRequest.of(0, 10, Sort.by("totalHits"));
+		Page<ShortURL> pagedResult = repository.findByHigherThan(paging, numRecords);
+
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		}
+		return new ArrayList<ShortURL>();
+	}
 }

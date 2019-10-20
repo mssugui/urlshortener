@@ -37,4 +37,18 @@ public class ShortenedURLController {
 	public List<ShortURL> all() {
 		return shortURLService.getAllURLs();
 	}
+	
+	@GetMapping("/statistics/higherThan/{numRecords}")
+	public List<ShortURL> getHigherThan(@PathVariable Long numRecords) {
+		return shortURLService.getHigherThan(numRecords);
+	}
+	
+	@GetMapping("/statistics/mostRequested/{topHits}")
+    public List<ShortURL> getMostRequested(@PathVariable Integer topHits)
+    {
+		if(topHits > 100) {
+			topHits = 100;
+		}
+        return shortURLService.getMostRequested(topHits);	
+    }
 }
