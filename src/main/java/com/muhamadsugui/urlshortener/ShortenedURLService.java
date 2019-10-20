@@ -11,14 +11,18 @@ import org.springframework.stereotype.Service;
 public class ShortenedURLService {
 	
 	private final ShortURLsRepository repository;
+	private URLShortenerEngine urlShortenerEngine;
 	
 	@Autowired
 	public ShortenedURLService(ShortURLsRepository restRepository) {
 		this.repository = restRepository;
+		this.urlShortenerEngine = new URLShortenerEngine();
 	}
 	
 	@Transactional
 	public ShortURL save(ShortURL shortURL) {
+		String forwardURL = shortURL.getForwardURL();
+		shortURL.setId(urlShortenerEngine.generateIdToURL(forwardURL));
 		ShortURL response = repository.save(shortURL);
 		return response;
 	}
