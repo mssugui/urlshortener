@@ -16,10 +16,14 @@ public class ShortURL {
 	
 	private String forwardURL;
 		
-	private Long totalHits;
+	private long totalHits;
 	
 	public ShortURL(String forwardURL) {
 		this.forwardURL = forwardURL;
+	}
+
+	public void incrementHits() {
+		this.totalHits++;
 	}
 
 }

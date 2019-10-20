@@ -22,7 +22,27 @@ public class ShortenedURLService {
 	@Transactional
 	public ShortURL save(ShortURL shortURL) {
 		String forwardURL = shortURL.getForwardURL();
-		shortURL.setId(urlShortenerEngine.generateIdToURL(forwardURL));
+		String candidateKey = urlShortenerEngine.generateKey(forwardURL);
+	
+		if(!repository.existsById(candidateKey)) {
+			//If candidateKey is not stored, shortURL is stored as a new record.
+			shortURL.setId(candidateKey);
+		} else {
+			ShortURL possibleMatch = repository.findById(candidateKey).get();
+			if (possibleMatch.getForwardURL().equals(shortURL.getForwardURL())) {
+				//If candidateKey exists and is the same forwardURL, increments hits statistics.
+				shortURL = possibleMatch;
+				shortURL.incrementHits();
+			} else {
+				//If candidateKey exists and is not the same URL, it was a collision and a new
+				//candidateKey has to be calculated.
+				candidateKey = urlShortenerEngine.generateKeyWithSalt(forwardURL);
+				while(repository.existsById(candidateKey)) {
+					candidateKey = urlShortenerEngine.generateKeyWithSalt(forwardURL);
+				}
+				shortURL.setId(candidateKey);		
+			}
+		}
 		ShortURL response = repository.save(shortURL);
 		return response;
 	}
