@@ -16,13 +16,22 @@ java -jar target/urlshortener-0.0.1-SNAPSHOT.jar
 sudo ./mvnw install dockerfile:build
 ```
 
-**To start a Docker Container from this image, run:**
+**To start a Docker Container from this image:**
 ```
 sudo docker run -p 8080:8080 -t muhamadsugui/urlshortener
 ```
 
-**To stop container, run:**
+**To stop container:**
 ```
 sudo docker ps
 sudo docker stop <CONTAINER_ID>
 ```
+**To publish this image in DockerHub:**
+```
+docker login --username=muhamadsugui --password=xxxx
+docker push muhamadsugui/urlshortener
+```
+
+**Docker image of this project:**
+
+muhamadsugui/urlshortener
