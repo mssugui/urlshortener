@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface ShortURLsRepository extends PagingAndSortingRepository<ShortURL, String>{
 	
 	@Query("SELECT s FROM ShortURL s WHERE s.totalHits > ?1 ORDER BY s.totalHits desc")
-	public Page<ShortURL> findByHigherThan(Pageable pageable, Long numRecords);
+	public Page<ShortURL> findByHigherThan(Pageable pageable, Long minHits);
 
 	@Query("SELECT s FROM ShortURL s WHERE s.totalHits > ?1 ORDER BY s.totalHits desc")
 	public List<ShortURL> findByTopMostRequested(Pageable pageable);

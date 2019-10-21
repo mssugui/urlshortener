@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,10 @@ public class ShortenedURLService {
 
 	private final ShortURLsRepository repository;
 	private URLShortenerEngine urlShortenerEngine;
+	
+	@Value("${shortenedURL.baseHostname}")
+	private String baseHostname;
+
 
 	@Autowired
 	public ShortenedURLService(ShortURLsRepository restRepository) {
@@ -73,9 +78,9 @@ public class ShortenedURLService {
 		return new ArrayList<ShortURL>();
 	}
 
-	public List<ShortURL> getHigherThan(Long numRecords) {
-		Pageable paging = PageRequest.of(0, 10, Sort.by("totalHits"));
-		Page<ShortURL> pagedResult = repository.findByHigherThan(paging, numRecords);
+	public List<ShortURL> getHigherThan(Integer page, Integer pageSize, Long minHits) {
+		Pageable paging = PageRequest.of(page, pageSize, Sort.by("totalHits"));
+		Page<ShortURL> pagedResult = repository.findByHigherThan(paging, minHits);
 
 		if (pagedResult.hasContent()) {
 			return pagedResult.getContent();
