@@ -23,9 +23,9 @@ public class ShortenedURLController {
 	}
 
 	@PostMapping("/urls")
-	public ResponseEntity<ShortURL> save(@RequestBody ShortURLDTO shortURLDTO) {
+	public ResponseEntity<ShortURLResponseDTO> save(@RequestBody ShortURLDTO shortURLDTO) {
 		ShortURL shortURL = shortURLService.save(shortURLDTO.transformToShortURL());
-		return new ResponseEntity<>(shortURL, HttpStatus.CREATED);
+		return new ResponseEntity<>(ShortURLResponseDTO.transformToShortURL(shortURL), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{id}")
@@ -38,12 +38,6 @@ public class ShortenedURLController {
 	public List<ShortURL> all() {
 		return shortURLService.getAllURLs();
 	}
-
-	/*
-	 * @GetMapping("/statistics/higherThan/{numRecords}") public List<ShortURL>
-	 * getHigherThan(@PathVariable Long numRecords) { return
-	 * shortURLService.getHigherThan(numRecords); }
-	 */
 
 	@GetMapping("/statistics/higherThan")
 	public List<ShortURL> getHigherThan(@RequestParam(defaultValue = "0") Integer page,
