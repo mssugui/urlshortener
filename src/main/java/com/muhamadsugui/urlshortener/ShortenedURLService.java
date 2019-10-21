@@ -82,4 +82,8 @@ public class ShortenedURLService {
 		}
 		return new ArrayList<ShortURL>();
 	}
+
+	public Long getNumRecords() {
+		return repository.count();
+	}
 }

@@ -34,7 +34,7 @@ public class ShortenedURLController {
 		return ShortURLForwardDTO.transformToShortURLForwardDTO(shortURL);
 	}
 
-	@GetMapping("/urls")
+	@GetMapping("/statistics/list")
 	public List<ShortURL> all() {
 		return shortURLService.getAllURLs();
 	}
@@ -53,4 +53,10 @@ public class ShortenedURLController {
 		}
 		return shortURLService.getMostRequested(topHits);
 	}
+	
+	@GetMapping("/statistics/count")
+	public Long getNumRecords() {
+		return shortURLService.getNumRecords();
+	}
+	
 }
