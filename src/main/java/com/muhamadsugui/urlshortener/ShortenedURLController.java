@@ -23,15 +23,15 @@ public class ShortenedURLController {
 	}
 
 	@PostMapping("/urls")
-	public ResponseEntity<ShortURLResponseDTO> save(@RequestBody ShortURLDTO shortURLDTO) {
+	public ResponseEntity<ShortURLShortenedDTO> save(@RequestBody ShortURLInputDTO shortURLDTO) {
 		ShortURL shortURL = shortURLService.save(shortURLDTO.transformToShortURL());
-		return new ResponseEntity<>(ShortURLResponseDTO.transformToShortURL(shortURL), HttpStatus.CREATED);
+		return new ResponseEntity<>(ShortURLShortenedDTO.transformToShortURLShortenedDTO(shortURL), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{id}")
-	public ShortURL getById(@PathVariable String id) {
+	public ShortURLForwardDTO getById(@PathVariable String id) {
 		ShortURL shortURL = shortURLService.findById(id);
-		return shortURL;
+		return ShortURLForwardDTO.transformToShortURLForwardDTO(shortURL);
 	}
 
 	@GetMapping("/urls")

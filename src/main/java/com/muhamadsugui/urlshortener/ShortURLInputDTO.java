@@ -3,7 +3,7 @@ package com.muhamadsugui.urlshortener;
 import lombok.Getter;
 
 @Getter
-public class ShortURLDTO {
+public class ShortURLInputDTO {
 	
 	private String forwardURL;
 	
