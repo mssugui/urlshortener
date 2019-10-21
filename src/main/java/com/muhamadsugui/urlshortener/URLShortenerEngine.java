@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class URLShortenerEngine {
 
-	private Random randomToken;
+	private static Random randomToken;
 	private MessageDigest md5;
 	/**
 	 * This algorithm is based on MD5, which generates hexadecimal digits, so, 
@@ -15,7 +15,10 @@ public class URLShortenerEngine {
 	 * 
 	 */
 	private final int KEY_LENGTH = 8;
-
+	
+	static {
+		randomToken = new Random(System.currentTimeMillis());
+	}
 
 	public int getKEY_LENGTH() {
 		return KEY_LENGTH;
@@ -49,7 +52,6 @@ public class URLShortenerEngine {
 	}
 
 	private String generateRandomChunk() {
-		randomToken = new Random(System.currentTimeMillis());
 		byte[] randomChunk = new byte[5];
 		randomToken.nextBytes(randomChunk);
 
